@@ -42,6 +42,6 @@ module.exports = {
 
   dataFile: 'data/mandi-prices.jsonl',
   sampleDataFile: 'data/sample-mandi-prices.jsonl',
-  summaryFile: 'summary.html',
+  summaryFile: 'docs/index.html',
   testSummaryFile: 'summary-test.html',
 };

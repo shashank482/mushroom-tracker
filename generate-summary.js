@@ -144,6 +144,7 @@ function generate({ dataFile, outputFile, isTestMode }) {
 </html>`;
 
   const fullOutputPath = path.join(__dirname, outputFile);
+  fs.mkdirSync(path.dirname(fullOutputPath), { recursive: true });
   fs.writeFileSync(fullOutputPath, html, 'utf8');
   console.log(`Summary page written to ${outputFile}. Open it by double-clicking the file.`);
 }
