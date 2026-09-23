@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mushroom Market Tracker</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #f6f7f4; color: #222; margin: 0; padding: 16px; }
+  h1 { font-size: 1.4rem; margin-bottom: 0; }
+  .generated { color: #666; font-size: 0.85rem; margin-top: 4px; margin-bottom: 20px; }
+  .banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 0.95rem; }
+  .test-banner { background: #fff3cd; border: 1px solid #ffe08a; }
+  .warning-banner { background: #fde2e1; border: 1px solid #f5a8a5; }
+  .card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card.warning { background: #fff8f7; }
+  .card h3 { margin: 0 0 8px 0; }
+  .price { font-size: 1.8rem; font-weight: 600; color: #2f6f4f; margin: 4px 0; }
+  .unit { font-size: 1rem; font-weight: 400; color: #555; }
+  .muted { color: #666; font-size: 0.85rem; }
+  .warning-text { color: #b23b36; font-weight: 500; }
+  .chart { width: 100%; height: auto; margin-top: 8px; }
+  .chart-label { font-size: 10px; fill: #888; }
+</style>
+</head>
+<body>
+  <h1>Mushroom Market Tracker</h1>
+  <p class="generated">Generated 22 Sept 2026, 12:56 pm</p>
+  
+  <div class="banner warning-banner">&#9888; 1 source(s) had no data this week: Ghaziabad.</div>
+  
+    <div class="card">
+      <h3>Azadpur (Delhi)</h3>
+      <p class="price">Rs 100 <span class="unit">per kg</span></p>
+      <p class="muted">Range: Rs 80 - Rs 120/kg &middot; Market date: 21/09/2026</p>
+      <p class="muted">Only one reading so far -- a chart will appear once there are at least two.</p>
+    </div>
+
+      <div class="card warning">
+        <h3>Ghaziabad</h3>
+        <p class="warning-text">&#9888; No data available. No mushroom price was reported for this market. This mandi does not report mushroom prices every week -- this is a known gap found during Stage 0 research, not a fault in the app.</p>
+      </div>
+  <p class="muted">Stage 1 of 7 -- mandi (wholesale) prices only. Retail prices, Google Trends, export data, cost comparison and weekly notes are added in later stages.</p>
+</body>
+</html>

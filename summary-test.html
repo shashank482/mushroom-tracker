@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mushroom Market Tracker</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #f6f7f4; color: #222; margin: 0; padding: 16px; }
+  h1 { font-size: 1.4rem; margin-bottom: 0; }
+  .generated { color: #666; font-size: 0.85rem; margin-top: 4px; margin-bottom: 20px; }
+  .banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 0.95rem; }
+  .test-banner { background: #fff3cd; border: 1px solid #ffe08a; }
+  .warning-banner { background: #fde2e1; border: 1px solid #f5a8a5; }
+  .card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card.warning { background: #fff8f7; }
+  .card h3 { margin: 0 0 8px 0; }
+  .price { font-size: 1.8rem; font-weight: 600; color: #2f6f4f; margin: 4px 0; }
+  .unit { font-size: 1rem; font-weight: 400; color: #555; }
+  .muted { color: #666; font-size: 0.85rem; }
+  .warning-text { color: #b23b36; font-weight: 500; }
+  .chart { width: 100%; height: auto; margin-top: 8px; }
+  .chart-label { font-size: 10px; fill: #888; }
+</style>
+</head>
+<body>
+  <h1>Mushroom Market Tracker</h1>
+  <p class="generated">Generated 22 Sept 2026, 12:56 pm</p>
+  <div class="banner test-banner">&#129504; TEST / SAMPLE DATA -- this is made-up data to show you how the page will look. It is not saved to your real price history.</div>
+  <div class="banner warning-banner">&#9888; 1 source(s) had no data this week: Ghaziabad [SAMPLE].</div>
+  
+    <div class="card">
+      <h3>Azadpur (Delhi) [SAMPLE]</h3>
+      <p class="price">Rs 94.02 <span class="unit">per kg</span></p>
+      <p class="muted">Range: Rs 74.02 - Rs 114.02/kg &middot; Market date: 22/09/2026</p>
+      
+    <svg viewBox="0 0 600 200" class="chart">
+      <path d="M 30.0 170.0 L 107.1 140.9 L 184.3 46.7 L 261.4 35.6 L 338.6 30.0 L 415.7 32.1 L 492.9 52.0 L 570.0 151.0" fill="none" stroke="#2f6f4f" stroke-width="2" />
+      <circle cx="30.0" cy="170.0" r="3.5" fill="#2f6f4f"><title>04/08/2026: Rs 92.23/kg</title></circle><circle cx="107.1" cy="140.9" r="3.5" fill="#2f6f4f"><title>11/08/2026: Rs 94.98/kg</title></circle><circle cx="184.3" cy="46.7" r="3.5" fill="#2f6f4f"><title>18/08/2026: Rs 103.86/kg</title></circle><circle cx="261.4" cy="35.6" r="3.5" fill="#2f6f4f"><title>25/08/2026: Rs 104.91/kg</title></circle><circle cx="338.6" cy="30.0" r="3.5" fill="#2f6f4f"><title>01/09/2026: Rs 105.44/kg</title></circle><circle cx="415.7" cy="32.1" r="3.5" fill="#2f6f4f"><title>08/09/2026: Rs 105.24/kg</title></circle><circle cx="492.9" cy="52.0" r="3.5" fill="#2f6f4f"><title>15/09/2026: Rs 103.36/kg</title></circle><circle cx="570.0" cy="151.0" r="3.5" fill="#2f6f4f"><title>22/09/2026: Rs 94.02/kg</title></circle>
+      <text x="30" y="14" class="chart-label">Rs 105.44/kg</text>
+      <text x="30" y="186" class="chart-label">Rs 92.23/kg</text>
+    </svg>
+    </div>
+
+      <div class="card warning">
+        <h3>Ghaziabad [SAMPLE]</h3>
+        <p class="warning-text">&#9888; No data available. Sample data: this mandi does not report mushroom prices (matches the real situation found in Stage 0).</p>
+      </div>
+  <p class="muted">Stage 1 of 7 -- mandi (wholesale) prices only. Retail prices, Google Trends, export data, cost comparison and weekly notes are added in later stages.</p>
+</body>
+</html>
