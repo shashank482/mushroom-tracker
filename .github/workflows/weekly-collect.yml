@@ -1,0 +1,41 @@
+name: Weekly mandi price collection
+
+on:
+  schedule:
+    - cron: '30 4 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      - name: Collect prices and regenerate summary
+        run: node run.js
+
+      - name: Commit and push updated data and summary
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/mandi-prices.jsonl docs/index.html; then
+            echo "No changes to commit."
+          else
+            git add data/mandi-prices.jsonl docs/index.html
+            git commit -m "chore: weekly mandi price update"
+            git push
+          fi
