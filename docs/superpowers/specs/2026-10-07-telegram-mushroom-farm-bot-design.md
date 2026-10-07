@@ -65,7 +65,7 @@ timestamps use Asia/Kolkata.
 **SQLite** — a single file, no separate database server to install or run. Fits the
 single-laptop deployment and the "never edit, only append corrections" rule naturally:
 the application code simply never issues `UPDATE`/`DELETE` against a submitted entry.
-Lives at `D:\MushroomFarmBot\data\farm.db`.
+Lives at `C:\Users\shash\MushroomFarmBot\data\farm.db`.
 
 Core tables (conceptual, not final column-level schema — that's for the implementation
 plan):
@@ -82,7 +82,7 @@ plan):
   sleep-reminder loop
 
 ### 3.3 Settings file
-A human-readable **YAML** file at `D:\MushroomFarmBot\config\settings.yaml` defining:
+A human-readable **YAML** file at `C:\Users\shash\MushroomFarmBot\config\settings.yaml` defining:
 people (telegram_id, name, role, language), units, schedules, target environmental
 ranges (marked "to be confirmed by grower/agronomist" — see §9), and per-unit toggles
 (e.g. CO2 question on/off). Adding a person, unit, or role means editing this file,
@@ -90,7 +90,7 @@ not the program's code. Changes take effect on the next bot restart.
 
 ### 3.4 Photos
 Saved exactly as Telegram sends them — never compressed or altered — in
-`D:\MushroomFarmBot\photos\<role>\<person>\<YYYY-MM-DD>\<timestamp>_<n>.jpg`.
+`C:\Users\shash\MushroomFarmBot\photos\<role>\<person>\<YYYY-MM-DD>\<timestamp>_<n>.jpg`.
 
 ### 3.5 Access control
 A static allow-list in `settings.yaml` maps specific Telegram numeric user IDs to a
@@ -125,9 +125,14 @@ The bot runs on the owner's home Windows laptop (confirmed via direct inspection
 supports S3 sleep and Hibernate; OneDrive sync root confirmed at `D:\OneDrive`; AC
 powered).
 
-- **Live app location:** `D:\MushroomFarmBot` — a plain local folder, deliberately
-  *outside* the OneDrive-synced folder, so OneDrive never tries to sync the database
-  file while the bot is actively writing to it.
+- **Live app location:** `C:\Users\shash\MushroomFarmBot` — a plain local folder,
+  deliberately *outside* the OneDrive-synced folder, so OneDrive never tries to sync
+  the database file while the bot is actively writing to it. (Originally planned as
+  `D:\MushroomFarmBot`, sitting next to `D:\OneDrive`; moved into the user's own
+  Windows profile after discovering, while starting the build, that this Windows
+  account cannot create new top-level folders directly under `D:\` — only
+  Administrators and SYSTEM have that right at the drive root. The user's own
+  profile folder is always fully writable by that user and needs no elevation.)
 - **Nightly backups:** a scheduled job copies a fresh snapshot of the database and any
   new photos into `D:\OneDrive\MushroomFarmBot-Backups`, which OneDrive then uploads
   automatically. This is the off-laptop copy required by the data-safety rules (§10).
@@ -155,7 +160,7 @@ powered).
      - No → goes straight to step 4.
   4. Every 10 minutes, the bot re-asks step 1, indefinitely, until the answer is Yes.
      No escalation cap and no second-owner fallback — kept deliberately simple.
-- **Project location:** the bot is a self-contained project at `D:\MushroomFarmBot`,
+- **Project location:** the bot is a self-contained project at `C:\Users\shash\MushroomFarmBot`,
   entirely separate from this repository (the existing JavaScript mandi-price tracker),
   which continues untouched.
 

@@ -17,8 +17,21 @@
 - **Photos are kept exactly as received**, organized by role/person/date, never compressed or altered. (Spec §1 rule 7, §3.4)
 - The bot's access token and all secrets live **only** in `config/settings.yaml`, which is gitignored. Nothing secret is ever committed or hardcoded. (Spec §3.5, §10.3)
 - Only Telegram accounts explicitly listed in `settings.yaml` may use the bot. Anyone else is silently told the bot is private, and the owner is alerted. (Spec §3.5, §10.2)
-- The live bot and its database live at `D:\MushroomFarmBot`, deliberately **outside** the OneDrive-synced folder (`D:\OneDrive`), to avoid OneDrive syncing a file the bot is actively writing. Nightly backups are copied **into** `D:\OneDrive\MushroomFarmBot-Backups`. (Spec §4)
+- The live bot and its database live at `C:\Users\shash\MushroomFarmBot`, deliberately **outside** the OneDrive-synced folder (`D:\OneDrive`), to avoid OneDrive syncing a file the bot is actively writing. Nightly backups are copied **into** `D:\OneDrive\MushroomFarmBot-Backups`. (Spec §4)
 - This project is entirely separate from the current repository (the JavaScript mandi-price tracker) **except** for one GitHub Actions workflow file, which intentionally lives in *this* repository because it already has Actions configured. (Spec §4, Task 9 below)
+
+> **Ruling (made while starting execution, before Task 1):** the spec and the first
+> draft of this plan located the project at `D:\MushroomFarmBot`, directly beside
+> `D:\OneDrive`. Attempting to create that folder failed with
+> `UnauthorizedAccessException` — checking `D:\`'s ACL showed only
+> `BUILTIN\Administrators` and `NT AUTHORITY\SYSTEM` have write access at the drive
+> root; this Windows account is a non-admin member of `Users`/`Authenticated Users`,
+> which only has `ReadAndExecute`. Moved the project to `C:\Users\shash\MushroomFarmBot`
+> instead — a location this account always owns outright, needing no elevation — and
+> updated every path in both this plan and the spec to match. Cost if wrong: trivial
+> to redo, since nothing had been written to the old path yet. The OneDrive backup
+> destination (`D:\OneDrive\MushroomFarmBot-Backups`) is unaffected — that folder's
+> own permissions (managed by the OneDrive app, not the drive root) already work.
 
 ---
 
@@ -31,14 +44,14 @@ Getting a real bot token requires the owner to interact live with Telegram on hi
 ### Task 1: Project scaffolding and settings loader
 
 **Files:**
-- Create: `D:\MushroomFarmBot\requirements.txt`
-- Create: `D:\MushroomFarmBot\.gitignore`
-- Create: `D:\MushroomFarmBot\pytest.ini`
-- Create: `D:\MushroomFarmBot\config\settings.example.yaml`
-- Create: `D:\MushroomFarmBot\bot\__init__.py`
-- Create: `D:\MushroomFarmBot\bot\config.py`
-- Create: `D:\MushroomFarmBot\scripts\__init__.py`
-- Test: `D:\MushroomFarmBot\tests\test_config.py`
+- Create: `C:\Users\shash\MushroomFarmBot\requirements.txt`
+- Create: `C:\Users\shash\MushroomFarmBot\.gitignore`
+- Create: `C:\Users\shash\MushroomFarmBot\pytest.ini`
+- Create: `C:\Users\shash\MushroomFarmBot\config\settings.example.yaml`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\__init__.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\config.py`
+- Create: `C:\Users\shash\MushroomFarmBot\scripts\__init__.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_config.py`
 
 **Interfaces:**
 - Produces: `bot.config.Settings` (dataclass: `bot_token: str`, `timezone: str`, `owner: Person`, `people: list[Person]`, `units: list[Unit]`, method `person_by_telegram_id(telegram_id: int) -> Person | None`), `bot.config.Person` (dataclass: `telegram_id: int`, `name: str`, `role: str`, `language: str`, `active: bool = True`), `bot.config.Unit` (dataclass: `id: str`, `name: str`, `co2_enabled: bool = False`), `bot.config.load_settings(path: Path) -> Settings`, `bot.config.SettingsError`. Every later task imports these.
@@ -46,8 +59,8 @@ Getting a real bot token requires the owner to interact live with Telegram on hi
 - [ ] **Step 1: Create the project folders and initialize git**
 
 ```bash
-mkdir -p "D:/MushroomFarmBot/bot" "D:/MushroomFarmBot/config" "D:/MushroomFarmBot/scripts" "D:/MushroomFarmBot/tests" "D:/MushroomFarmBot/data" "D:/MushroomFarmBot/photos"
-cd "D:/MushroomFarmBot"
+mkdir -p "C:/Users/shash/MushroomFarmBot/bot" "C:/Users/shash/MushroomFarmBot/config" "C:/Users/shash/MushroomFarmBot/scripts" "C:/Users/shash/MushroomFarmBot/tests" "C:/Users/shash/MushroomFarmBot/data" "C:/Users/shash/MushroomFarmBot/photos"
+cd "C:/Users/shash/MushroomFarmBot"
 git init
 ```
 
@@ -321,8 +334,8 @@ git commit -m "feat: add project scaffolding and settings loader"
 ### Task 2: Database schema and repository layer
 
 **Files:**
-- Create: `D:\MushroomFarmBot\bot\db.py`
-- Test: `D:\MushroomFarmBot\tests\test_db.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\db.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_db.py`
 
 **Interfaces:**
 - Consumes: nothing from Task 1 directly (this module is standalone).
@@ -527,8 +540,8 @@ git commit -m "feat: add SQLite schema and append-only entry repository"
 ### Task 3: Access control
 
 **Files:**
-- Create: `D:\MushroomFarmBot\bot\access_control.py`
-- Test: `D:\MushroomFarmBot\tests\test_access_control.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\access_control.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_access_control.py`
 
 **Interfaces:**
 - Consumes: `bot.config.Settings`, `bot.config.Person` (Task 1).
@@ -643,8 +656,8 @@ git commit -m "feat: add Telegram allow-list access control"
 ### Task 4: Photo storage helper
 
 **Files:**
-- Create: `D:\MushroomFarmBot\bot\photos.py`
-- Test: `D:\MushroomFarmBot\tests\test_photos.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\photos.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_photos.py`
 
 **Interfaces:**
 - Consumes: nothing from earlier tasks.
@@ -736,8 +749,8 @@ git commit -m "feat: add photo storage helper"
 ### Task 5: Shared conversation helpers
 
 **Files:**
-- Create: `D:\MushroomFarmBot\bot\conversation_helpers.py`
-- Test: `D:\MushroomFarmBot\tests\test_conversation_helpers.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\conversation_helpers.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_conversation_helpers.py`
 
 **Interfaces:**
 - Consumes: nothing from earlier tasks.
@@ -875,8 +888,8 @@ git commit -m "feat: add shared button, number-parsing, and summary helpers"
 ### Task 6: Bot entry point and startup confirmation
 
 **Files:**
-- Create: `D:\MushroomFarmBot\bot\main.py`
-- Test: `D:\MushroomFarmBot\tests\test_main.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\main.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_main.py`
 
 **Interfaces:**
 - Consumes: `bot.config.load_settings` (Task 1), `bot.access_control.authorize`, `bot.access_control.AccessDenied`, `bot.access_control.format_unknown_sender_alert` (Task 3), `bot.db.connect` (Task 2).
@@ -1035,7 +1048,7 @@ git commit -m "feat: add bot entry point with /start handler"
 This step cannot be automated — it needs the owner's real phone and the token from the BotFather walkthrough (see the note before Task 1).
 
 1. Copy `config/settings.example.yaml` to `config/settings.yaml` and fill in the real `bot.token`, the owner's real Telegram ID, and Anuragh's real Telegram ID.
-2. Run `python -m bot.main` from `D:\MushroomFarmBot`.
+2. Run `python -m bot.main` from `C:\Users\shash\MushroomFarmBot`.
 3. From the owner's Telegram account, send `/start` to the bot — confirm it replies "Hello Shashank, the bot is working." *(Note: the current `start` handler greets by whatever name is in settings — the owner will see his own name once his real ID is in `settings.yaml`.)*
 4. Confirm the owner also receives "✅ I'm up and running." shortly after the bot starts.
 5. From a different, unlisted Telegram account, send `/start` — confirm that account gets the "this bot is private" message, and the owner receives the unknown-sender alert with the correct ID.
@@ -1045,7 +1058,7 @@ This step cannot be automated — it needs the owner's real phone and the token 
 ### Task 7: Windows Task Scheduler automation and power plan
 
 **Files:**
-- Create: `D:\MushroomFarmBot\scripts\register_task_scheduler.ps1`
+- Create: `C:\Users\shash\MushroomFarmBot\scripts\register_task_scheduler.ps1`
 
 **Interfaces:**
 - Consumes: nothing (standalone PowerShell script).
@@ -1062,7 +1075,7 @@ This task changes real operating-system state, so it has no `pytest` cycle. Its 
 
 $taskName = "MushroomFarmBot"
 $pythonExe = (Get-Command python).Source
-$workingDirectory = "D:\MushroomFarmBot"
+$workingDirectory = "C:\Users\shash\MushroomFarmBot"
 
 $action = New-ScheduledTaskAction -Execute $pythonExe -Argument "-m bot.main" -WorkingDirectory $workingDirectory
 $trigger = New-ScheduledTaskTrigger -AtLogOn
@@ -1099,8 +1112,8 @@ git commit -m "feat: add Windows Task Scheduler auto-start/restart script"
 ### Task 8: Nightly backup to OneDrive
 
 **Files:**
-- Create: `D:\MushroomFarmBot\scripts\backup.py`
-- Test: `D:\MushroomFarmBot\tests\test_backup.py`
+- Create: `C:\Users\shash\MushroomFarmBot\scripts\backup.py`
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_backup.py`
 
 **Interfaces:**
 - Consumes: nothing from earlier tasks (operates on plain file paths).
@@ -1212,7 +1225,7 @@ Expected: PASS (3 tests)
 
 Add a second task via PowerShell (run once, elevated):
 ```powershell
-$backupAction = New-ScheduledTaskAction -Execute (Get-Command python).Source -Argument "-m scripts.backup" -WorkingDirectory "D:\MushroomFarmBot"
+$backupAction = New-ScheduledTaskAction -Execute (Get-Command python).Source -Argument "-m scripts.backup" -WorkingDirectory "C:\Users\shash\MushroomFarmBot"
 $backupTrigger = New-ScheduledTaskTrigger -Daily -At 2:00am
 Register-ScheduledTask -TaskName "MushroomFarmBotBackup" -Action $backupAction -Trigger $backupTrigger -Force
 ```
@@ -1227,7 +1240,7 @@ git commit -m "feat: add nightly database and photo backup script"
 ### Task 9: Morning laptop nudge (GitHub Actions)
 
 **Files:**
-- Create (in the **current repository**, `mushroom-tracker`, not `D:\MushroomFarmBot`): `.github/workflows/morning-nudge.yml`
+- Create (in the **current repository**, `mushroom-tracker`, not `C:\Users\shash\MushroomFarmBot`): `.github/workflows/morning-nudge.yml`
 
 **Interfaces:**
 - Consumes: nothing from this plan's Python code — this is a standalone GitHub Actions workflow that calls the Telegram HTTP API directly with `curl`.
@@ -1271,7 +1284,7 @@ jobs:
 1. In the repository's Actions tab, select "Morning laptop nudge" → "Run workflow" (uses the `workflow_dispatch` trigger) to fire it immediately rather than waiting for 9 am.
 2. Confirm the owner's Telegram receives "☀️ Good morning! Please turn on the laptop so the farm bot can start."
 
-- [ ] **Step 4: Commit (in the `mushroom-tracker` repository, not `D:\MushroomFarmBot`)**
+- [ ] **Step 4: Commit (in the `mushroom-tracker` repository, not `C:\Users\shash\MushroomFarmBot`)**
 
 ```bash
 git add .github/workflows/morning-nudge.yml
@@ -1283,9 +1296,9 @@ git commit -m "ci: add morning Telegram nudge for the farm bot laptop"
 ### Task 10: Night sleep-reminder loop
 
 **Files:**
-- Create: `D:\MushroomFarmBot\bot\night_reminder.py`
-- Modify: `D:\MushroomFarmBot\bot\main.py` (register the new handler and daily job; add a timezone-aware `Defaults` to the `Application` builder)
-- Test: `D:\MushroomFarmBot\tests\test_night_reminder.py`
+- Create: `C:\Users\shash\MushroomFarmBot\bot\night_reminder.py`
+- Modify: `C:\Users\shash\MushroomFarmBot\bot\main.py` (register the new handler and daily job; add a timezone-aware `Defaults` to the `Application` builder)
+- Test: `C:\Users\shash\MushroomFarmBot\tests\test_night_reminder.py`
 
 **Interfaces:**
 - Consumes: `bot.config.Settings` (Task 1).
