@@ -1,0 +1,19 @@
+name: Morning laptop nudge
+
+on:
+  schedule:
+    - cron: "30 3 * * *"  # 09:00 Asia/Kolkata = 03:30 UTC
+  workflow_dispatch: {}
+
+jobs:
+  nudge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram reminder
+        env:
+          BOT_TOKEN: ${{ secrets.FARM_BOT_TOKEN }}
+          OWNER_CHAT_ID: ${{ secrets.FARM_BOT_OWNER_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${OWNER_CHAT_ID}" \
+            -d text="☀️ Good morning! Please turn on the laptop so the farm bot can start."
