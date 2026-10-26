@@ -14,3 +14,5 @@
 {"collected_at":"2026-10-12T12:15:53.006Z","source_type":"mandi","source_name":"Ghaziabad","status":"error","note":"Could not reach the government data website. Details: fetch failed"}
 {"collected_at":"2026-10-19T10:06:50.509Z","source_type":"mandi","source_name":"Azadpur (Delhi)","status":"error","note":"Could not reach the government data website. Details: fetch failed"}
 {"collected_at":"2026-10-19T10:06:50.509Z","source_type":"mandi","source_name":"Ghaziabad","status":"error","note":"Could not reach the government data website. Details: fetch failed"}
+{"collected_at":"2026-10-26T10:21:02.170Z","source_type":"mandi","source_name":"Azadpur (Delhi)","status":"error","note":"Could not reach the government data website. Details: fetch failed"}
+{"collected_at":"2026-10-26T10:21:02.170Z","source_type":"mandi","source_name":"Ghaziabad","status":"error","note":"Could not reach the government data website. Details: fetch failed"}
